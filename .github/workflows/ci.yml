@@ -20,7 +20,7 @@ jobs:
 
       - name: Run tests
         # For example, using `pytest`
-        run: uv run pthon -m unittest
+        run: uv run python -m unittest
 
       - name: Run precommit
         # For example, using `pytest`
