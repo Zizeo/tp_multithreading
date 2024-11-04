@@ -1,0 +1,12 @@
+name: CI
+
+jobs:
+  uv-example:
+    name: python
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: uv run pre-commit run -a
+
+      - name: unit tests
+        uses: uv run python -m unittest
