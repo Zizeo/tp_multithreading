@@ -14,7 +14,7 @@ class TestTask(unittest.TestCase):
         self.assertEqual(task.x.shape, (task.size,))
         self.assertEqual(task.time, 0)
 
-        # task.work()
+        task.work()
 
         np.testing.assert_allclose(np.dot(task.a, task.x), task.b)
 
