@@ -20,12 +20,12 @@ if __name__ == '__main__':
         minions.append(minion)
         minion.start()
 
-    # Start the boss
-    boss = Boss(num_tasks=30)  # Create 10 tasks
+
+    boss = Boss(num_tasks=60) 
     boss.start()
     boss.join() 
 
-    # Clean up
+
     for minion in minions:
         minion.terminate()
     manager_process.terminate()
