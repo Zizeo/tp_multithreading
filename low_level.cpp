@@ -8,7 +8,6 @@
 #include <string>
 
 class Task {
-private:
 public:
     int identifier;
     int size;
@@ -17,17 +16,17 @@ public:
     Eigen::VectorXd b;
     Eigen::VectorXd x;
 
-    Task(int identifier = 0, int size = 0)
+    Task(int identifier = 0, int size = 10000)
         : identifier(identifier)
-        , size(size ? size : rand() % 2700 + 300)
+        , size(size ? size : rand() % 9000 + 1000)
         , time(0)
     {
-        a.resize(size, size);
-        b.resize(size);
-        x.resize(size);
-        x.setZero(size);
-        a.setRandom(size, size);
-        b.setRandom(size);
+        a.resize(this->size, this->size);
+        b.resize(this->size);
+        x.resize(this->size);
+        x.setZero(this->size);
+        a.setRandom(this->size, this->size);
+        b.setRandom(this->size);
     }
 
     void work()
@@ -47,13 +46,14 @@ public:
         j["size"] = size;
 
         auto matrix_array = json::array();
-        printf("\n test \n");
+        // printf("\n test \n");
         for (int i = 0; i < size; i++) {
             auto row = json::array();
-            printf("\n test \n");
+            // printf("\n test \n");
             for (int j = 0; j < size; j++) {
-                printf("\n test \n");
+                // printf("\n test \n");
                 row.push_back(a(i, j));
+                // printf("\n test \n");
             }
             matrix_array.push_back(row);
         }
@@ -122,7 +122,7 @@ public:
 
 int main()
 {
-    Task task;
+    Task task(1000);
     task.work();
     std::cout << task.to_json() << std::endl;
     // std::cout << task.read_server() << std::endl;
