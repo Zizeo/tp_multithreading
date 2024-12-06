@@ -48,7 +48,7 @@ class Task:
         return (
             self.identifier == other.identifier
             and self.size == other.size
-            and np.array_equal(self.a, other.a)
-            and np.array_equal(self.b, other.b)
-            and np.array_equal(self.x, other.x)
+            and np.allclose(self.a, other.a)
+            and np.allclose(self.b, other.b)
+            and np.allclose(self.x, other.x)
         )

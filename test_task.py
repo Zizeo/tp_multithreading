@@ -30,6 +30,7 @@ class TestTask(unittest.TestCase):
         np.testing.assert_equal(task.b, new_task.b)
         np.testing.assert_equal(task.x, new_task.x)
         new_task.work()
+        task.work()
         np.testing.assert_allclose(np.dot(new_task.a, new_task.x), new_task.b)
 
         self.assertTrue(task == new_task)
