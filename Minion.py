@@ -15,10 +15,15 @@ class Minion(QueueClient):
 
                 # Process the task
                 task.work()
-
+                print(f"Task {task.identifier} running")
                 # Put result back in queue
                 self.result_queue.put(task)
 
             except Exception as e:
                 print(f"Error processing task: {e}")
                 break
+
+
+if __name__ == "__main__":
+    minion = Minion()
+    minion.run()

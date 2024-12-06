@@ -1,7 +1,7 @@
 import multiprocessing
 from QueueManager import QueueManager
 from Boss import Boss
-from Minion import Minion
+from proxy import Proxy
 import time
 
 """
@@ -18,7 +18,7 @@ Pour 100 tâches :
 
 
 def run_manager(port=2727, authkey=b"abc"):
-    manager = QueueManager(address=("localhost", port), authkey=authkey)
+    manager = QueueManager(address=("", port), authkey=authkey)
     server = manager.get_server()
     server.serve_forever()
 
@@ -29,14 +29,14 @@ if __name__ == "__main__":
 
     minions = []
     start = time.perf_counter()
-    for _ in range(4):
-        minion = Minion()
-        minions.append(minion)
-        minion.start()
-
     boss = Boss(num_tasks=100)
     boss.start()
     boss.join()
+    proxy = Proxy()
+    # for _ in range(4):
+    # minion = Minion()
+    # minions.append(minion)
+    # minion.start()
 
     for minion in minions:
         minion.terminate()

@@ -16,7 +16,7 @@ public:
     Eigen::VectorXd b;
     Eigen::VectorXd x;
 
-    Task(int identifier = 0, int size = 10000)
+    Task(int identifier = 0, int size = rand() % 9000 + 1000)
         : identifier(identifier)
         , size(size ? size : rand() % 9000 + 1000)
         , time(0)
@@ -27,13 +27,14 @@ public:
         x.setZero(this->size);
         a.setRandom(this->size, this->size);
         b.setRandom(this->size);
+        time = 0;
     }
 
     void work()
     {
-        auto start = std::chrono::high_resolution_clock::now();
-        x = a.partialPivLu().solve(b);
-        auto finish = std::chrono::high_resolution_clock::now();
+        auto start = std::chrono::steady_clock::now();
+        x = a.ldlt().solve(b);
+        auto finish = std::chrono::steady_clock::now();
         time = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start)
                    .count();
     }
@@ -42,14 +43,12 @@ public:
     {
         using namespace nlohmann;
         json j;
-        j["identifier"] = identifier;
-        j["size"] = size;
-
+        j["identifier"] = std::to_string(identifier);
+        j["size"] = std::to_string(size);
+        j["time"] = std::to_string(time);
         auto matrix_array = json::array();
-        // printf("\n test \n");
         for (int i = 0; i < size; i++) {
             auto row = json::array();
-            // printf("\n test \n");
             for (int j = 0; j < size; j++) {
                 // printf("\n test \n");
                 row.push_back(a(i, j));
@@ -80,15 +79,14 @@ public:
         auto& matrix_array = j["a"];
         for (int i = 0; i < task.size; i++) {
             for (int j = 0; j < task.size; j++) {
-                task.a(i, j) = std::stod(matrix_array[i][j].get<std::string>());
+                task.a(i, j) = matrix_array[i][j];
             }
         }
-
         auto& b_array = j["b"];
         auto& x_array = j["x"];
         for (int i = 0; i < task.size; i++) {
-            task.b(i) = std::stod(b_array[i].get<std::string>());
-            task.x(i) = std::stod(x_array[i].get<std::string>());
+            task.b(i) = b_array[i];
+            task.x(i) = x_array[i];
         }
 
         return task;
@@ -101,9 +99,12 @@ public:
 
     std::string read_server()
     {
-        auto response = cpr::Get(cpr::Url { "http://localhost:8000/" });
-        std::cout << response.text << std::endl;
-        return response.text;
+        while (true) {
+            auto response = cpr::Get(cpr::Url { "http://localhost:8000/" });
+            if (response.status_code == 200 && response.text != "") {
+                return response.text;
+            }
+        }
     }
 
     void write_server(nlohmann::json j)
@@ -122,10 +123,14 @@ public:
 
 int main()
 {
-    Task task(1000);
-    task.work();
-    std::cout << task.to_json() << std::endl;
-    // std::cout << task.read_server() << std::endl;
-    printf("%d", task.size);
+    while (true) {
+        Task task;
+        std::string json_str = task.read_server();
+        if (json_str != "") {
+            task = Task::from_json(json_str);
+        }
+        task.work();
+        task.write_server(task.to_json());
+    }
     return 0;
 }
