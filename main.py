@@ -1,8 +1,8 @@
 import multiprocessing
 from QueueManager import QueueManager
 from Boss import Boss
-from proxy import Proxy
 import time
+from Minion import Minion
 
 """
 sur Intel® Core™ i3-8130U CPU @ 2.20GHz × 4
@@ -32,11 +32,11 @@ if __name__ == "__main__":
     boss = Boss(num_tasks=100)
     boss.start()
     boss.join()
-    proxy = Proxy()
-    # for _ in range(4):
-    # minion = Minion()
-    # minions.append(minion)
-    # minion.start()
+    # proxy = Proxy()
+    for _ in range(4):
+        minion = Minion()
+        minions.append(minion)
+        minion.start()
 
     for minion in minions:
         minion.terminate()

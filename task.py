@@ -30,6 +30,7 @@ class Task:
                 "a": self.a.tolist(),
                 "b": self.b.tolist(),
                 "x": self.x.tolist(),
+                "time": self.time,
             }
         )
 
