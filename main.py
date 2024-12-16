@@ -29,9 +29,7 @@ if __name__ == "__main__":
 
     minions = []
     start = time.perf_counter()
-    boss = Boss(num_tasks=100)
-    boss.start()
-    boss.join()
+    boss = Boss(num_tasks=5, size=500)
     # proxy = Proxy()
     for _ in range(4):
         minion = Minion()
