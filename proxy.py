@@ -32,8 +32,9 @@ class Proxy(BaseHTTPRequestHandler):
         self.wfile.write(bytes(dumps({"status": "ok"}), "utf-8"))
 
 
-def run(server_class=HTTPServer, handler_class=Proxy):
-    server_address = ("", 8000)
+def run(
+    server_class=HTTPServer, handler_class=Proxy, server_address=("localhost", 8000)
+):
     httpd = server_class(server_address, handler_class)
     httpd.serve_forever()
 

@@ -30,5 +30,5 @@ class Boss(QueueClient):
 
 
 if __name__ == "__main__":
-    boss = Boss(num_tasks=10, size=500)
+    boss = Boss(num_tasks=100, size=1000)
     boss.run()

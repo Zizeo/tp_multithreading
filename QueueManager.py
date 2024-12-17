@@ -28,7 +28,11 @@ class QueueClient:
         self.manager = QueueManager(
             address=("localhost", self.port), authkey=self.authkey
         )
-        self.manager.connect()
+        try:
+            self.manager.connect()
+        except ConnectionRefusedError:
+            print("Connection to the manager failed. Is it running?")
+            raise
         self.task_queue = self.manager.get_task_queue()
         self.result_queue = self.manager.get_result_queue()
 
@@ -38,6 +42,6 @@ class QueueClient:
 
 
 if __name__ == "__main__":
-    manager = QueueManager(address=("", 2727), authkey=b"abc")
+    manager = QueueManager(address=("localhost", 2727), authkey=b"abc")
     server = manager.get_server()
     server.serve_forever()
