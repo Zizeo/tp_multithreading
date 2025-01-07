@@ -18,8 +18,23 @@ Python 3.10 ou plus est requis.
 Utilisez uv et Cmake pour build le projet.
 
 ```bash
+#1st terminal :
+./build/low_level
+
+#2nd terminal :
 pip install uv
 uv venv
 uv sync
 uv run main.py
 ```
+## Tests
+### Cpp
+10 tâches de taille 1000 : 34.30 seconds
+
+### Python
+avec 4 minions.
+
+- 10 tâches de taille 1000 : 2.88 seconds
+- 20 tâches de taille 1000 : 4.32 seconds
+- 50 tâches de taille 1000 : 8.41 seconds
+- 100 tâches de taille 1000 : 15.18 seconds

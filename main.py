@@ -3,19 +3,9 @@ from QueueManager import QueueManager
 from Boss import Boss
 import time
 from Minion import Minion
-from proxy import Proxy
+from proxy import run as proxy_run
 
-"""
-sur Intel® Core™ i3-8130U CPU @ 2.20GHz × 4
-Pour 100 tâches taille 1000 :
-    1 minion: 45.86s
-    2 minions: 40.43s
-    4 minions: 33.07s
-    5 minions: 37.27s
-    10 minions: 43.39s
-    20 minions: 49.22s
 
-"""
 MINION = 4
 CPP = True
 
@@ -37,8 +27,7 @@ def run_minion(port=2727, authkey=b"abc"):
 
 
 def run_cpp():
-    proxy = Proxy()
-    proxy.run()
+    proxy_run()
 
 
 if __name__ == "__main__":
@@ -53,15 +42,17 @@ if __name__ == "__main__":
     minions = []
     # minion_process = multiprocessing.Process(target=run_cpp)
 
-    for _ in range(MINION):
-        if CPP:
-            minion_process = multiprocessing.Process(target=run_cpp)
-        else:
+    if CPP:
+        minion_process = multiprocessing.Process(target=run_cpp)
+        minions.append(minion_process)
+        minion_process.start()
+    else:
+        for _ in range(MINION):
             minion_process = multiprocessing.Process(
                 target=run_minion, args=(2727, b"abc")
             )
-    minions.append(minion_process)
-    minion_process.start()
+            minions.append(minion_process)
+            minion_process.start()
 
     for minion in minions:
         minion.join()
