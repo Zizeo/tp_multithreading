@@ -25,9 +25,7 @@ class QueueClient:
         self.connect()
 
     def connect(self):
-        self.manager = QueueManager(
-            address=("localhost", self.port), authkey=self.authkey
-        )
+        self.manager = QueueManager(address=("", self.port), authkey=self.authkey)
         try:
             self.manager.connect()
         except ConnectionRefusedError:
@@ -42,6 +40,6 @@ class QueueClient:
 
 
 if __name__ == "__main__":
-    manager = QueueManager(address=("localhost", 2727), authkey=b"abc")
+    manager = QueueManager(address=("", 2727), authkey=b"abc")
     server = manager.get_server()
     server.serve_forever()

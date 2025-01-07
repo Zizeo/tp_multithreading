@@ -11,7 +11,6 @@ class Minion(QueueClient):
 
         while self.running:
             try:
-                # Get task from queue
                 task = self.task_queue.get(timeout=2)
 
                 # Process the task

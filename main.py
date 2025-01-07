@@ -36,7 +36,7 @@ def run_minion(port=2727, authkey=b"abc"):
     minion.run()
 
 
-def run_cpp(port=2727, authkey=b"abc"):
+def run_cpp():
     proxy = Proxy()
     proxy.run()
 
@@ -51,15 +51,17 @@ if __name__ == "__main__":
     time.sleep(0.5)  # sleep pour laisser le temps au manager/boss de se lancer
 
     minions = []
+    # minion_process = multiprocessing.Process(target=run_cpp)
+
     for _ in range(MINION):
         if CPP:
-            minion_process = multiprocessing.Process(target=run_cpp, args=(8000,))
+            minion_process = multiprocessing.Process(target=run_cpp)
         else:
             minion_process = multiprocessing.Process(
                 target=run_minion, args=(2727, b"abc")
             )
-        minions.append(minion_process)
-        minion_process.start()
+    minions.append(minion_process)
+    minion_process.start()
 
     for minion in minions:
         minion.join()
