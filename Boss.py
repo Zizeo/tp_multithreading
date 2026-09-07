@@ -1,6 +1,7 @@
+import time
+
 from QueueManager import QueueClient
 from task import Task
-import time
 
 
 class Boss(QueueClient):

@@ -2,7 +2,6 @@ import multiprocessing
 from abc import abstractmethod
 from multiprocessing.managers import BaseManager
 
-
 task_queue = multiprocessing.Queue()
 result_queue = multiprocessing.Queue()
 
