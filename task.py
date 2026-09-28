@@ -1,7 +1,7 @@
+import json
 import time
 
 import numpy as np
-import json
 
 
 class Task:
@@ -14,7 +14,7 @@ class Task:
         self.a = np.random.rand(self.size, self.size)
         self.b = np.random.rand(self.size)
         # prepare room for the results
-        self.x = np.zeros((self.size))
+        self.x = np.zeros(self.size)
         self.time = 0
 
     def work(self):
