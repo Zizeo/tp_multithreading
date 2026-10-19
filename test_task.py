@@ -4,6 +4,7 @@ import unittest
 class TestTask(unittest.TestCase):
     def test_task(self):
         import numpy as np
+
         from task import Task
 
         task = Task()
@@ -20,6 +21,7 @@ class TestTask(unittest.TestCase):
 
     def test_serialization(self):
         import numpy as np
+
         from task import Task
 
         task = Task()
