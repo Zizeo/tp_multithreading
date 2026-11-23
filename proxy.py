@@ -4,7 +4,6 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from json import dumps
 
 from QueueManager import QueueClient
-
 from task import Task
 
 

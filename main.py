@@ -1,10 +1,10 @@
 import multiprocessing
-from QueueManager import QueueManager
-from Boss import Boss
 import time
+
+from Boss import Boss
 from Minion import Minion
 from proxy import run as proxy_run
-
+from QueueManager import QueueManager
 
 MINION = 4
 CPP = True
